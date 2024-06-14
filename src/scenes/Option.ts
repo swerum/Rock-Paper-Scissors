@@ -44,14 +44,14 @@ export class Option {
         this.computerChoice.visible = false;
 
         this.sprite.setInteractive();
-        this.sprite.on('pointerover', () => {
-        this.outlineSprite.visible = true;
+            this.sprite.on('pointerover', () => {
+            this.outlineSprite.visible = true;
         });
         this.sprite.addListener('pointerout', () => {
-        this.outlineSprite.visible = false;
+            this.outlineSprite.visible = false;
         });
         this.sprite.addListener('pointerdown', () => {
-        onClick(this, spriteName);
+            onClick(this, spriteName);
         });
     }
     showUserOption(enable : boolean) : void {

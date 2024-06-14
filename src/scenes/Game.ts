@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import {Option, vec2} from "./Option"
-import { clearScreen, setGameCompleteScreen } from './Util';
+import { clearScreen, setGameCompleteScreen, setTexts } from './Util';
 
 const screenSize : vec2 = new vec2(800, 450);
 const buttonDistance : number = 120;
@@ -28,42 +28,13 @@ export default class Demo extends Phaser.Scene {
     const bg = this.add.image(center.x, center.y, 'bg');
     bg.setDisplaySize(screenSize.x, screenSize.y);
 
-    let selectOption : Function = (userChoice : Option) => {
-      clearScreen(this.options, this.winnerText);
-      this.time.removeAllEvents();
-      //start countdown
-      let countdown : number = 3;
-      let countdownFunction : Function = () => {
-        if (countdown > 0) {
-          //set countdown text
-          this.countdownTexts.forEach(t => {
-            t.text = ""+countdown;
-          });
-        } else {
-          this.countdownTexts.forEach(t => {
-            t.text = "";
-          });
-          //computer chooses randomly
-          let r : number = Math.floor(Math.random() * this.options.length);
-          let computerChoice : Option = this.options[r];
-          //score is evaluated
-          setGameCompleteScreen(computerChoice, userChoice, this.winnerText);
-          this.time.removeAllEvents();
-        }
-        countdown--;
-      }
-
-
-      this.time.addEvent({ delay: 500, callback: countdownFunction, callbackScope: this, loop: true });
-      countdownFunction();
-    }
-
-    let rock : Option =     new Option('rock',      center.x - buttonDistance,  optionsHeight, this, selectOption);
-    let paper : Option =    new Option('paper',     center.x,                   optionsHeight, this, selectOption);
-    let scissors : Option = new Option('scissors',  center.x + buttonDistance,  optionsHeight, this, selectOption);
+    let selectOptionCallback : Function = (userChoice : Option) => { this.selectOption(userChoice); }
+    let rock : Option =     new Option('rock',      center.x - buttonDistance,  optionsHeight, this, selectOptionCallback);
+    let paper : Option =    new Option('paper',     center.x,                   optionsHeight, this, selectOptionCallback);
+    let scissors : Option = new Option('scissors',  center.x + buttonDistance,  optionsHeight, this, selectOptionCallback);
     this.options = [ rock, paper, scissors];
-    console.log(this.options);
 
+    //set up text
     this.winnerText = this.add.text(center.x - 20, 172, "", {
       fontFamily: "Fredericka the Great",
       fontSize : '45px',
@@ -83,7 +54,32 @@ export default class Demo extends Phaser.Scene {
       t.text = "";
       t.setOrigin(0.5,0.5);
     });
+  }
 
+  selectOption(userChoice : Option) {
+    let countdown : number = 3;
+    //callback function for whenever the countdown counts down
+    //it updates the numbers on the screen and when it reaches zero, it shows the Game Complete Screen
+    let countdownFunction : Function = () => {
+      if (countdown > 0) {
+        //set countdown text
+        setTexts(this.countdownTexts, ""+countdown);
+      } else {
+        setTexts(this.countdownTexts, "");
+
+        let r : number = Math.floor(Math.random() * this.options.length);
+        let computerChoice : Option = this.options[r];
+        //score is evaluated
+        setGameCompleteScreen(computerChoice, userChoice, this.winnerText);
+        this.time.removeAllEvents();
+      }
+      countdown--;
+    }
+
+    clearScreen(this.options, this.winnerText);
+    this.time.removeAllEvents();
+    this.time.addEvent({ delay: 500, callback: countdownFunction, callbackScope: this, loop: true });
+    countdownFunction();
   }
 
 

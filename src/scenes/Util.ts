@@ -1,4 +1,5 @@
 import {Option} from "./Option";
+import Phaser from 'phaser';
 
 export function setGameCompleteScreen(computerChoice : Option, userChoice : Option, winnerText : Phaser.GameObjects.Text) {
     computerChoice.showComputerOption(true);
@@ -13,6 +14,12 @@ export function clearScreen(options : Option[], winnerText : Phaser.GameObjects.
         b.showUserOption(false);
         b.showComputerOption(false);
     });
+}
+
+export function setTexts(texts : Phaser.GameObjects.Text[], str : string) {
+    texts.forEach(t => {
+        t.text = ""+str;
+      });
 }
 
 function getWinnerAnnouncementString(userChoice : string, computerChoice : string) : string {
