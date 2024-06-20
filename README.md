@@ -7,7 +7,7 @@
 </h1>
 
 This is a built from a [Phaser 3](https://github.com/photonstorm/phaser) starter with [TypeScript](https://www.typescriptlang.org/), [Rollup](https://rollupjs.org) with ⚡️ lightning fast HMR through [Vite](https://vitejs.dev/).
-It is a basic Rock Paper Scissors game with art assets made in Rebelle Pro 5.
+It is a basic Rock Paper Scissors game with art assets made in Rebelle Pro 5. To play the game, visit [https://www.sarahwerum.dev/Rock-Paper-Scissors/](https://www.sarahwerum.dev/Rock-Paper-Scissors/)
 
 ![Screenshot 2024-06-14 at 3 23 51 PM](https://github.com/swerum/Rock-Paper-Scissors/assets/48184789/4ae7d5d0-c4c2-493e-bb60-1eba90a82124)
 
